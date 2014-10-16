@@ -1,0 +1,7 @@
+# IDE config files
+.idea
+
+dev/
+prod/
+node_modules/
+src/vendor/

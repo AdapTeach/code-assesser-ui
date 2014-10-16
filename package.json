@@ -1,0 +1,27 @@
+{
+    "name": "angular-quiz",
+    "version": "0.0.1",
+    "dependencies": {},
+    "devDependencies": {
+        "connect-livereload": "*",
+        "express": "*",
+        "gulp": "*",
+        "del": "*",
+        "run-sequence": "*",
+        "gulp-concat": "*",
+        "gulp-embedlr": "*",
+        "gulp-jshint": "*",
+        "gulp-livereload": "*",
+        "gulp-util": "*",
+        "tiny-lr": "*",
+        "gulp-ng-annotate": "*",
+        "gulp-usemin": "*",
+        "gulp-minify-css": "*",
+        "gulp-minify-html": "*",
+        "gulp-copy": "*",
+        "gulp-uglify": "*",
+        "gulp-rev": "*",
+        "gulp-angular-templatecache": "*",
+        "gulp-sourcemaps": "*"
+    }
+}

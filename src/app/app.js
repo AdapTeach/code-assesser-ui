@@ -1,9 +1,12 @@
 angular.module('app', [
-    'ui.bootstrap',
+    'ngMaterial',
+    'ui.router',
     'ui.ace',
-    'assessment'
+    'assessment',
+    'backend'
 ])
 
-    .config(function ($locationProvider) {
-        // $locationProvider.html5Mode(true);
+    .config(function ($locationProvider,$urlRouterProvider) {
+        $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/');
     });

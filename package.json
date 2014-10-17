@@ -1,5 +1,5 @@
 {
-    "name": "angular-quiz",
+    "name": "code-grader-client",
     "version": "0.0.1",
     "dependencies": {},
     "devDependencies": {
@@ -22,6 +22,7 @@
         "gulp-uglify": "*",
         "gulp-rev": "*",
         "gulp-angular-templatecache": "*",
-        "gulp-sourcemaps": "*"
+        "gulp-sourcemaps": "*",
+        "gulp-sass" : "*"
     }
 }

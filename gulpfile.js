@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    sass = require('gulp-sass'),
     concat = require('gulp-concat'),
     gutil = require('gulp-util'),
     jshint = require('gulp-jshint'),
@@ -34,7 +35,7 @@ devServer.all('/*', function (req, res) {
 // PATHS
 var pathToIndexFile = 'src/index.html';
 var pathToJsSource = 'src/app/**/*.js';
-var pathToCssSource = 'src/app/**/*.css';
+var pathToCssSource = 'src/app/**/*.scss';
 var pathToTemplates = 'src/app/**/*.html';
 var pathToLibs = ['src/vendor/**/*.js', 'src/vendor/**/*.css'];
 
@@ -79,9 +80,11 @@ gulp.task('buildJs', function () {
         .pipe(refresh(lrserver));
 });
 
+
+
 gulp.task('buildStyle', function () {
     gulp.src(pathToCssSource)
-        .pipe(concat('build.css'))
+        .pipe(sass())
         .pipe(gulp.dest('dev'));
     gulp.src(pathToIndexFile)
         .pipe(refresh(lrserver));

@@ -1,4 +1,14 @@
 .ace_editor  {
-    height : 200px;
-    font-size: 16px !important;
+  height : 200px;
+  font-size: 16px !important;
+}
+
+.dialog-result{
+  width : 100%;
+}
+
+@media all and (min-width: 800px){
+  .dialog-result{
+    width : 80%;
+  }
 }

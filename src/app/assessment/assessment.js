@@ -11,12 +11,14 @@ angular.module('assessment', ['ui.router'])
             }
         });
     })
-    .controller('AssessmentCtrl',function($atExercise,$stateParams){
+    .controller('AssessmentCtrl',function($atExercise,$stateParams, $mdDialog){
+        var self = this;
+        console.log($atExercise.assessment);
         this.assessment = $atExercise.assessment;
         this.exercise = {
+            id : $stateParams.id,
             code : angular.copy(this.assessment.startCode)
         };
-        console.log(this.exercise)
         this.title = $stateParams.id;
         this.aceConfig = {
             mode: 'java',
@@ -27,5 +29,35 @@ angular.module('assessment', ['ui.router'])
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true
             }
+        };
+
+        this.submitCode = function($event){
+            $mdDialog.show({
+                targetEvent: $event,
+                controller: 'ResultDialogCtrl',
+                templateUrl:'assessment/dialog-result.tpl.html',
+                clickOutsideToClose : false,
+                escapeToClose : false,
+                locals : {
+                    exercise : self.exercise
+                }
+            }).then(function(){
+                console.log('success');
+            }).catch(function(err){
+                console.log('error');
+            });
+        };
+    })
+.controller('ResultDialogCtrl',function($atExercise, exercise, $mdDialog, $scope){
+        $atExercise.submitCode(exercise).then(function(){
+            $scope.success = $atExercise.result.pass;
+        }).catch(function(err){
+            console.log(err);
+        }).finally(function(){
+            $scope.finished = true;
+        });
+
+        $scope.close = function() {
+            $mdDialog.hide();
         };
     });

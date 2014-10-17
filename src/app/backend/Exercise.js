@@ -17,11 +17,21 @@ angular.module('backend', [])
             return deferred.promise;
         };
 
-        service.submit = function (assessmentId, submittedCode) {
+        service.submitCode = function (exercise) {
             var body = {
-                code: submittedCode
+                code: exercise.code
             };
-            return $http.post(BACKEND_URL + assessmentId, body);
+            var deferred = $q.defer();
+            console.log(exercise);
+            $http.post(BACKEND_URL + exercise.id, body).success(function(data){
+                console.log(data);
+                service.result = data.result;
+                deferred.resolve();
+            }).error(function(err){
+                console.log(err);
+                deferred.reject(err);
+            });
+            return deferred.promise;
         };
 
         return service;

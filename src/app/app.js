@@ -3,10 +3,12 @@ angular.module('app', [
     'ui.router',
     'ui.ace',
     'assessment',
-    'backend'
+    'backend',
+    'codeEditor',
+    'submission'
 ])
 
-    .config(function ($locationProvider,$urlRouterProvider) {
+    .config(function ($locationProvider, $urlRouterProvider) {
         $locationProvider.html5Mode(true);
         $urlRouterProvider.otherwise('/');
     });

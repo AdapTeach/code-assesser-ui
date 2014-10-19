@@ -5,7 +5,7 @@
         <md-button>
             Help
         </md-button>
-        <md-button class="md-button-colored" ng-click="assessmentCtrl.submitCode($event)">
+        <md-button class="md-button-colored" ng-click="assessmentCtrl.Submissions.submitCurrent()">
             Submit code
         </md-button>
     </div>
@@ -15,7 +15,9 @@
         {{ assessmentCtrl.Assessments.current.instructions }}
     </p>
 
-    <div ui-ace="assessmentCtrl.aceConfig" ng-model="assessmentCtrl.submission.code">
+    <code-editor></code-editor>
+
+    <submission-result></submission-result>
 
     </div>
 </md-content>

@@ -1,0 +1,11 @@
+<div>
+    {{
+    submissionResultCtrl.Submissions.current.result
+    }}
+    <div ng-if="submissionResultCtrl.Submissions.current.result.pass">
+        Success !!!
+    </div>
+    <div ng-if="!submissionResultCtrl.Submissions.current.result.pass">
+        Error
+    </div>
+</div>

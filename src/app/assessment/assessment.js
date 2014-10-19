@@ -20,14 +20,9 @@ angular.module('assessment', ['ui.router'])
         Assessments.result = {};
 
         Assessments.load = function (assessmentId) {
-            var deferred = $q.defer();
-            $http.get(BACKEND_URL + assessmentId).success(function (data) {
+            return $http.get(BACKEND_URL + assessmentId).success(function (data) {
                 Assessments.current = data;
-                deferred.resolve();
-            }).error(function (err) {
-                deferred.reject(err);
             });
-            return deferred.promise;
         };
 
         Assessments.submit = function (code) {

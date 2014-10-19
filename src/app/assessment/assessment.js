@@ -29,14 +29,9 @@ angular.module('assessment', ['ui.router'])
             var body = {
                 code: code
             };
-            var deferred = $q.defer();
-            $http.post(BACKEND_URL + Assessments.current.id, body).success(function (data) {
+            return $http.post(BACKEND_URL + Assessments.current.id, body).success(function (data) {
                 Assessments.result = data.result;
-                deferred.resolve();
-            }).error(function (err) {
-                deferred.reject(err);
             });
-            return deferred.promise;
         };
 
         return Assessments;

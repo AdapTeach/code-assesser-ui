@@ -1,22 +1,21 @@
 <md-toolbar scroll-shrink>
     <div class="md-toolbar-tools">
-        {{ app.title }}
+        {{ assessmentCtrl.Assessments.current.title }}
         <span flex></span>
-
         <md-button>
             Help
         </md-button>
-        <md-button class="md-button-colored" ng-click="app.submitCode($event)">
+        <md-button class="md-button-colored" ng-click="assessmentCtrl.submitCode($event)">
             Submit code
         </md-button>
     </div>
 </md-toolbar>
 <md-content class="md-content-padding">
     <p>
-        {{ app.assessment.instructions }}
+        {{ assessmentCtrl.Assessments.current.instructions }}
     </p>
 
-    <div ui-ace="app.aceConfig" ng-model="app.exercise.code">
+    <div ui-ace="assessmentCtrl.aceConfig" ng-model="assessmentCtrl.submission.code">
 
     </div>
 </md-content>

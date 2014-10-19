@@ -1,25 +1,58 @@
 angular.module('assessment', ['ui.router'])
-    .config(function($stateProvider){
-        $stateProvider.state('asses',{
-            url : '/exercise/:id',
-            templateUrl : 'assessment/assessment.tpl.html',
-            controller : 'AssessmentCtrl as app',
-            resolve : {
-                assessment : function($atExercise,$stateParams){
-                    return $atExercise.init($stateParams.id);
+
+    .config(function ($stateProvider) {
+        $stateProvider.state('assessment', {
+            url: '/assessment/:id',
+            templateUrl: 'assessment/assessment.tpl.html',
+            controller: 'AssessmentCtrl as assessmentCtrl',
+            resolve: {
+                assessment: function (Assessments, $stateParams) {
+                    return Assessments.load($stateParams.id);
                 }
             }
         });
     })
-    .controller('AssessmentCtrl',function($atExercise,$stateParams, $mdDialog){
-        var self = this;
-        console.log($atExercise.assessment);
-        this.assessment = $atExercise.assessment;
-        this.exercise = {
-            id : $stateParams.id,
-            code : angular.copy(this.assessment.startCode)
+
+    .factory('Assessments', function ($q, $http, BACKEND_URL) {
+        var Assessments = {};
+
+        Assessments.current = {};
+        Assessments.result = {};
+
+        Assessments.load = function (assessmentId) {
+            var deferred = $q.defer();
+            $http.get(BACKEND_URL + assessmentId).success(function (data) {
+                Assessments.current = data;
+                deferred.resolve();
+            }).error(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
         };
-        this.title = $stateParams.id;
+
+        Assessments.submit = function (code) {
+            var body = {
+                code: code
+            };
+            var deferred = $q.defer();
+            $http.post(BACKEND_URL + Assessments.current.id, body).success(function (data) {
+                Assessments.result = data.result;
+                deferred.resolve();
+            }).error(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+        return Assessments;
+    })
+
+    .controller('AssessmentCtrl', function ($stateParams, $mdDialog, Assessments) {
+        var self = this;
+        this.Assessments = Assessments;
+        this.submission = {
+            code: angular.copy(Assessments.current.startCode)
+        };
         this.aceConfig = {
             mode: 'java',
             theme: 'eclipse',
@@ -30,34 +63,34 @@ angular.module('assessment', ['ui.router'])
                 enableLiveAutocompletion: true
             }
         };
-
-        this.submitCode = function($event){
+        this.submitCode = function ($event) {
             $mdDialog.show({
                 targetEvent: $event,
                 controller: 'ResultDialogCtrl',
-                templateUrl:'assessment/dialog-result.tpl.html',
-                clickOutsideToClose : false,
-                escapeToClose : false,
-                locals : {
-                    exercise : self.exercise
+                templateUrl: 'assessment/dialog-result.tpl.html',
+                clickOutsideToClose: false,
+                escapeToClose: false,
+                locals: {
+                    codeToSubmit: self.submission.code
                 }
-            }).then(function(){
+            }).then(function () {
                 console.log('success');
-            }).catch(function(err){
+            }).catch(function (err) {
                 console.log('error');
             });
         };
     })
-.controller('ResultDialogCtrl',function($atExercise, exercise, $mdDialog, $scope){
-        $atExercise.submitCode(exercise).then(function(){
-            $scope.success = $atExercise.result.pass;
-        }).catch(function(err){
+
+    .controller('ResultDialogCtrl', function (Assessments, codeToSubmit, $mdDialog, $scope) {
+        Assessments.submit(codeToSubmit).then(function () {
+            $scope.success = Assessments.result.pass;
+        }).catch(function (err) {
             console.log(err);
-        }).finally(function(){
+        }).finally(function () {
             $scope.finished = true;
         });
 
-        $scope.close = function() {
+        $scope.close = function () {
             $mdDialog.hide();
         };
     });

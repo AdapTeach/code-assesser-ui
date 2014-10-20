@@ -16,6 +16,11 @@
             <pre>{{ Submissions.current.result.cmpinfo }}</pre>
         </div>
 
+        <div ng-if="Submissions.current.result.output">
+            <h3>Output :</h3>
+            <pre>{{ Submissions.current.result.output }}</pre>
+        </div>
+
         <div ng-if="Submissions.current.result.error">
             <h3>Error :</h3>
             <pre>{{ Submissions.current.result.error }}</pre>

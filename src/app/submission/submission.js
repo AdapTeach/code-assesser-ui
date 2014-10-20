@@ -42,7 +42,6 @@ angular.module('submission', [
         };
 
         Submissions.hasResult = function () {
-//            return Submissions.current.assessment === Assessments.current;
             return Submissions.current.assessment === Assessments.current && Submissions.current.finished && Submissions.current.result.pass !== undefined;
         };
 

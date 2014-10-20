@@ -1,10 +1,14 @@
-angular.module('submission', [])
+angular.module('submission', [
+    'submission.result',
+    'submission.progress'
+])
 
     .factory('Submissions', function ($http, BACKEND_URL, Assessments, submissionProgressDialog) {
         var Submissions = {
             current: {
                 assessment: {},
                 code: '',
+                finished: false,
                 result: {}
             }
         };
@@ -18,6 +22,7 @@ angular.module('submission', [])
             Submissions.current = {
                 assessment: assessment,
                 code: submittedCode,
+                finished: false,
                 result: {}
             };
             var body = {
@@ -28,47 +33,18 @@ angular.module('submission', [])
                     Submissions.current.result = data.result;
                 })
                 .error(function (error) {
-                    Submissions.current.result = error;
+                    Submissions.current.result = error; // TODO Display error
                 })
                 .finally(function () {
                     submissionProgressDialog.hide();
+                    Submissions.current.finished = true;
                 });
         };
 
+        Submissions.hasResult = function () {
+//            return Submissions.current.assessment === Assessments.current;
+            return Submissions.current.assessment === Assessments.current && Submissions.current.finished && Submissions.current.result.pass !== undefined;
+        };
+
         return Submissions;
-    })
-
-    .factory('submissionProgressDialog', function ($mdDialog) {
-        var dialog = {};
-
-        dialog.show = function () {
-            $mdDialog.hide();
-            $mdDialog.show({
-                controller: 'SubmissionProgressDialogCtrl',
-                templateUrl: 'submission/submissionProgressDialog.html',
-                clickOutsideToClose: false,
-                escapeToClose: false
-            });
-        };
-
-        dialog.hide = $mdDialog.hide;
-
-        return dialog;
-    })
-
-    .controller('SubmissionProgressDialogCtrl', function () {
-    })
-
-    .directive('submissionResult', function () {
-        return {
-            restrict: 'E',
-            scope: {},
-            templateUrl: 'submission/submissionResult.html',
-            controller: 'SubmissionResultCtrl',
-            controllerAs: 'submissionResultCtrl'
-        };
-    })
-
-    .controller('SubmissionResultCtrl', function ($scope, Submissions) {
-        $scope.Submissions = Submissions;
     });

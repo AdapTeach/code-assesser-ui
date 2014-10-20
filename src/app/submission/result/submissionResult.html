@@ -1,0 +1,26 @@
+<div ng-if="Submissions.hasResult()">
+
+    <div ng-if="Submissions.current.result.pass">
+        <img src="http://prixroberval.utc.fr/outils/image/success.png" width="128px">
+
+        <h1>Good job !</h1>
+    </div>
+
+    <div ng-if="!Submissions.current.result.pass">
+        <img src="http://icdn.pro/images/fr/a/c/action-agt-fail-icone-4999-128.png">
+
+        <h1>Fail !</h1>
+
+        <div ng-if="Submissions.current.result.cmpinfo">
+            <h3>Compilation info :</h3>
+            <pre>{{ Submissions.current.result.cmpinfo }}</pre>
+        </div>
+
+        <div ng-if="Submissions.current.result.error">
+            <h3>Error :</h3>
+            <pre>{{ Submissions.current.result.error }}</pre>
+        </div>
+
+    </div>
+
+</div>

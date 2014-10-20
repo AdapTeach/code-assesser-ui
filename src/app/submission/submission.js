@@ -69,6 +69,6 @@ angular.module('submission', [])
         };
     })
 
-    .controller('SubmissionResultCtrl', function (Submissions) {
-        this.Submissions = Submissions;
+    .controller('SubmissionResultCtrl', function ($scope, Submissions) {
+        $scope.Submissions = Submissions;
     });

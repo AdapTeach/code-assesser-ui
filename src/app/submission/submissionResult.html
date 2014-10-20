@@ -1,11 +1,12 @@
 <div>
     {{
-    submissionResultCtrl.Submissions.current.result
+    Submissions.current.result
     }}
-    <div ng-if="submissionResultCtrl.Submissions.current.result.pass">
-        Success !!!
+    <div ng-if="Submissions.current.result.pass">
+        <img src="http://prixroberval.utc.fr/outils/image/success.png" width="150px">
+        <h1>Good job !</h1>
     </div>
-    <div ng-if="!submissionResultCtrl.Submissions.current.result.pass">
+    <div ng-if="!Submissions.current.result.pass">
         Error
     </div>
 </div>

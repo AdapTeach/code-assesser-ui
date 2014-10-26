@@ -30,10 +30,10 @@ angular.module('submission', [
             };
             return $http.post(BACKEND_URL + assessment.id, body)
                 .success(function (data) {
-                    Submissions.current.result = data.result;
+                    Submissions.current.result = data;
                 })
                 .error(function (error) {
-                    Submissions.current.result = error; // TODO Display error
+                    console.log(error);
                 })
                 .finally(function () {
                     submissionProgressDialog.hide();
@@ -42,7 +42,10 @@ angular.module('submission', [
         };
 
         Submissions.hasResult = function () {
-            return Submissions.current.assessment === Assessments.current && Submissions.current.finished && Submissions.current.result.pass !== undefined;
+            return Submissions.current.assessment === Assessments.current
+                && Submissions.current.finished
+                && Submissions.current.result !== undefined
+                && Submissions.current.result.pass !== undefined;
         };
 
         return Submissions;

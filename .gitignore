@@ -1,8 +1,6 @@
 # IDE config files
 .idea
-
-dev/
-prod/
-node_modules/
-src/vendor/
-./s3.json
+dev
+dist
+node_modules
+src/vendor

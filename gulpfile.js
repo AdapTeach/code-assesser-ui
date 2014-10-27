@@ -38,6 +38,7 @@ var pathToJsSource = 'src/app/**/*.js';
 var pathToCssSource = 'src/app/**/*.scss';
 var pathToTemplates = 'src/app/**/*.html';
 var pathToLibs = ['src/vendor/**/*.js', 'src/vendor/**/*.css'];
+var pathToImg = 'src/img/**'
 
 gulp.task('default', ['dev'], function () {
 });
@@ -68,6 +69,8 @@ gulp.task('cleanDevFolder', function (cb) {
 
 gulp.task('copyLibs', function () {
     gulp.src(pathToLibs)
+        .pipe(copy('dev', {prefix: 1}));
+    gulp.src(pathToImg)
         .pipe(copy('dev', {prefix: 1}));
 });
 
@@ -159,12 +162,4 @@ gulp.task('startProdServer', function () {
         res.sendFile('index.html', { root: 'dist' });
     });
     server.listen(serverport);
-});
-
-gulp.task('deploy',function(){
-    var conf = JSON.parse(require('fs').readFileSync('./s3.json'));
-    console.log(conf)
-    gulp.src('./dist/**')
-        .pipe(gulpS3(conf));
-
 });

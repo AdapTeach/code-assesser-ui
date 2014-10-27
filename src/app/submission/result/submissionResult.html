@@ -1,18 +1,20 @@
 <div ng-if="Submissions.hasResult()">
 
-    <div ng-if="Submissions.current.result.pass">
-        <img src="http://prixroberval.utc.fr/outils/image/success.png" width="128px">
+    <div ng-if="Submissions.current.result.pass" style="text-align:center;">
+        <img src="../img/success.png" width="128px">
         <h1>Good job !</h1>
     </div>
 
     <div ng-if="!Submissions.current.result.pass">
-        <img src="http://icdn.pro/images/fr/a/c/action-agt-fail-icone-4999-128.png">
+        <div layout="horizontal" layout-align="center">
+            <img src="img/fail.jpg" height="128px">
+        </div>
 
-        <h1>Fail !</h1>
+        <!--<h1>Fail !</h1>-->
 
-        <md-list ng-if="Submissions.current.result.compilationErrors">
+        <md-list ng-if="Submissions.current.result.compilationErrors.length > 0">
             <h3>Compilation errors :</h3>
-            <md-item ng-repeat="error in ::Submissions.current.result.compilationErrors">
+            <md-item ng-repeat="error in ::Submissions.current.result.compilationErrors" style="margin-bottom: 5px;">
                 <md-item-content class="md-theme-red">
                     {{ error }}
                 </md-item-content>
@@ -20,10 +22,14 @@
             <!--<pre>{{ Submissions.current.result.compilationErrors }}</pre>-->
         </md-list>
 
-        <div ng-if="Submissions.current.result.failedTestMessages">
+        <md-list ng-if="Submissions.current.result.failedTestMessages.length > 0">
             <h3>Failed Tests :</h3>
-            <pre>{{ Submissions.current.result.failedTestMessages }}</pre>
-        </div>
+            <md-item ng-repeat="error in ::Submissions.current.result.failedTestMessages" style="margin-bottom: 5px;">
+                <md-item-content class="md-theme-orange">
+                    {{ error }}
+                </md-item-content>
+            </md-item>
+        </md-list>
 
     </div>
 

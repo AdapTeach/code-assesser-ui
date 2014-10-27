@@ -11,5 +11,6 @@ angular.module('submission.result', [])
     })
 
     .controller('SubmissionResultCtrl', function ($scope, Submissions) {
+        console.log(Submissions);
         $scope.Submissions = Submissions;
     });

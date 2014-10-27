@@ -18,8 +18,7 @@ var gulp = require('gulp'),
     minifyHtml = require('gulp-minify-html'),
     rev = require('gulp-rev'),
     sourcemaps = require('gulp-sourcemaps'),
-    templateCache = require('gulp-angular-templatecache'),
-    gulpS3 = require('gulp-s3');
+    templateCache = require('gulp-angular-templatecache');
 
 var livereloadport = 35729,
     serverport = 5000;

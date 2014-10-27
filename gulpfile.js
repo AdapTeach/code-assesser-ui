@@ -153,6 +153,8 @@ gulp.task('buildProd', function () {
             js: [annotate(), uglify(), rev()]
         }))
         .pipe(gulp.dest('dist'));
+    gulp.src('dev/img/**')
+        .pipe(copy('dist', {prefix: 1}));
 });
 
 gulp.task('startProdServer', function () {

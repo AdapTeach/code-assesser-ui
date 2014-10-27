@@ -2,7 +2,6 @@ angular.module('submission', [
     'submission.result',
     'submission.progress'
 ])
-
     .factory('Submissions', function ($http, BACKEND_URL, Assessments, submissionProgressDialog) {
         var Submissions = {
             current: {

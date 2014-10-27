@@ -18,7 +18,8 @@ var gulp = require('gulp'),
     minifyHtml = require('gulp-minify-html'),
     rev = require('gulp-rev'),
     sourcemaps = require('gulp-sourcemaps'),
-    templateCache = require('gulp-angular-templatecache');
+    templateCache = require('gulp-angular-templatecache'),
+    gulpS3 = require('gulp-s3');
 
 var livereloadport = 35729,
     serverport = 5000;
@@ -128,7 +129,7 @@ gulp.task('lint', function () {
 ///////////////////////////////////
 
 
-gulp.task('prod', function () {
+gulp.task('build', function () {
         runSequence(
             'cleanProdFolder',
             'buildDev',
@@ -139,7 +140,7 @@ gulp.task('prod', function () {
 );
 
 gulp.task('cleanProdFolder', function (cb) {
-    del('prod', cb);
+    del('dist', cb);
 });
 
 gulp.task('buildProd', function () {
@@ -149,14 +150,22 @@ gulp.task('buildProd', function () {
             html: [minifyHtml({empty: true})],
             js: [annotate(), uglify(), rev()]
         }))
-        .pipe(gulp.dest('prod'));
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('startProdServer', function () {
     var server = express();
-    server.use(express.static('./prod'));
+    server.use(express.static('./dist'));
     server.all('/*', function (req, res) {
-        res.sendFile('index.html', { root: 'prod' });
+        res.sendFile('index.html', { root: 'dist' });
     });
     server.listen(serverport);
+});
+
+gulp.task('deploy',function(){
+    var conf = JSON.parse(require('fs').readFileSync('./s3.json'));
+    console.log(conf)
+    gulp.src('./dist/**')
+        .pipe(gulpS3(conf));
+
 });

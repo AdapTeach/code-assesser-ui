@@ -5,3 +5,4 @@ dev/
 prod/
 node_modules/
 src/vendor/
+./s3.json

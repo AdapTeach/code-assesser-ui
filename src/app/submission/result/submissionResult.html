@@ -10,10 +10,15 @@
 
         <h1>Fail !</h1>
 
-        <div ng-if="Submissions.current.result.compilationErrors">
+        <md-list ng-if="Submissions.current.result.compilationErrors">
             <h3>Compilation errors :</h3>
-            <pre>{{ Submissions.current.result.compilationErrors }}</pre>
-        </div>
+            <md-item ng-repeat="error in ::Submissions.current.result.compilationErrors">
+                <md-item-content class="md-theme-red">
+                    {{ error }}
+                </md-item-content>
+            </md-item>
+            <!--<pre>{{ Submissions.current.result.compilationErrors }}</pre>-->
+        </md-list>
 
         <div ng-if="Submissions.current.result.failedTestMessages">
             <h3>Failed Tests :</h3>

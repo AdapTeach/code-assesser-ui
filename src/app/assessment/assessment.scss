@@ -1,6 +1,7 @@
 .ace_editor  {
   height : 200px;
   font-size: 16px !important;
+  z-index : 1;
 }
 
 .dialog-result{
@@ -11,4 +12,11 @@
   .dialog-result{
     width : 80%;
   }
+}
+
+.fixed-toolbar{
+  position : fixed;
+  top:0;
+  background-color : white;
+  z-index : 2;
 }

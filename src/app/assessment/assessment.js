@@ -4,7 +4,7 @@ angular.module('assessment', ['ui.router'])
         $stateProvider.state('assessment', {
             url: '/assessment/:id',
             templateUrl: 'assessment/assessment.html',
-            controller: 'AssessmentCtrl as assessmentCtrl',
+            controller: 'AssessmentCtrl as assessment',
             resolve: {
                 assessment: function ($stateParams, Assessments, Submissions) {
                     return Assessments.load($stateParams.id).then(function () {
@@ -29,7 +29,9 @@ angular.module('assessment', ['ui.router'])
         return Assessments;
     })
 
-    .controller('AssessmentCtrl', function ($scope, Assessments, Submissions) {
-        $scope.Assessments = Assessments;
-        $scope.Submissions = Submissions;
+    .controller('AssessmentCtrl', function (Assessments, Submissions) {
+        angular.extend(this,Assessments.current);
+
+        this.reset = Submissions.resetCurrent;
+        this.submit = Submissions.submitCurrent;
     });

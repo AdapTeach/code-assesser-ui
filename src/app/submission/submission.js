@@ -3,13 +3,19 @@ angular.module('submission', [
     'submission.progress'
 ])
     .factory('Submissions', function ($http, BACKEND_URL, Assessments, submissionProgressDialog) {
-        var Submissions = {
-            current: {
-                assessment: {},
-                code: '',
-                finished: false,
-                result: {}
-            }
+        var base = {
+                current: {
+                    assessment: {},
+                    code: '',
+                    finished: false,
+                    result: {}
+                }
+            },
+            Submissions = angular.copy(base);
+
+        Submissions.resetCurrent = function(){
+            Submissions.current = base;
+            Submissions.current.code = Assessments.current.startCode;
         };
 
         Submissions.submitCurrent = function () {

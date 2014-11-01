@@ -1,4 +1,4 @@
-code-grader-client
+code-assesser-ui
 ==================
 
-Embeddable forms to submit code for code-grader assessments
+Embeddable forms to submit solutions for code-assessments

@@ -13,7 +13,7 @@ angular.module('submission', [
             },
             Submissions = angular.copy(base);
 
-        Submissions.resetCurrent = function(){
+        Submissions.resetCurrent = function () {
             Submissions.current = base;
             Submissions.current.code = Assessments.current.startCode;
         };
@@ -47,10 +47,10 @@ angular.module('submission', [
         };
 
         Submissions.hasResult = function () {
-            return Submissions.current.assessment === Assessments.current
-                && Submissions.current.finished
-                && Submissions.current.result !== undefined
-                && Submissions.current.result.pass !== undefined;
+            return Submissions.current.assessment === Assessments.current &&
+                Submissions.current.finished &&
+                Submissions.current.result !== undefined &&
+                Submissions.current.result.pass !== undefined;
         };
 
         return Submissions;

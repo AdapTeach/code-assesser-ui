@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat'),
-    gutil = require('gulp-util'),
     jshint = require('gulp-jshint'),
     runSequence = require('run-sequence'),
     del = require('del'),
@@ -27,9 +26,9 @@ var livereloadport = 35729,
 // DEV SERVER
 var devServer = express();
 devServer.use(livereload({port: livereloadport}));
-devServer.use(express.static('./dev'));
+devServer.use(express.static('./src'));
 devServer.all('/*', function (req, res) {
-    res.sendFile('index.html', { root: 'dev' });
+    res.sendFile('index.html', {root: 'src'});
 });
 
 // PATHS
@@ -37,65 +36,37 @@ var pathToIndexFile = 'src/index.html';
 var pathToJsSource = 'src/app/**/*.js';
 var pathToCssSource = 'src/app/**/*.scss';
 var pathToTemplates = 'src/app/**/*.html';
-var pathToLibs = ['src/vendor/**/*.js', 'src/vendor/**/*.css'];
-var pathToImg = 'src/img/**'
 
 gulp.task('default', ['dev'], function () {
 });
 
-gulp.task('dev', function () {
-        runSequence(
-            'cleanDevFolder',
-            [
-                'buildDev',
-                'startDevServer',
-                'watchSource'
-            ]);
-    }
-);
-
-gulp.task('buildDev', [
-    'copyLibs',
-    'buildJs',
-    'buildStyle',
-    'copyIndex',
-    'cacheTemplates'
+gulp.task('dev', [
+    'buildDev',
+    'startDevServer',
+    'watchSource'
 ], function () {
 });
 
-gulp.task('cleanDevFolder', function (cb) {
-    del('dev', cb);
-});
-
-gulp.task('copyLibs', function () {
-    gulp.src(pathToLibs)
-        .pipe(copy('dev', {prefix: 1}));
-    gulp.src(pathToImg)
-        .pipe(copy('dev', {prefix: 1}));
+gulp.task('buildDev', [
+    'buildJs',
+    'buildStyle',
+    'cacheTemplates'
+], function () {
 });
 
 gulp.task('buildJs', function () {
     gulp.src(pathToJsSource)
         .pipe(sourcemaps.init())
-        .pipe(concat('build.js'))
+        .pipe(concat('all-source.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('dev'))
+        .pipe(gulp.dest('src/build'))
         .pipe(refresh(lrserver));
 });
-
-
 
 gulp.task('buildStyle', function () {
     gulp.src(pathToCssSource)
         .pipe(sass())
-        .pipe(gulp.dest('dev'));
-    gulp.src(pathToIndexFile)
-        .pipe(refresh(lrserver));
-});
-
-gulp.task('copyIndex', function () {
-    gulp.src(pathToIndexFile)
-        .pipe(copy('dev', {prefix: 1}))
+        .pipe(gulp.dest('src/build'));
     gulp.src(pathToIndexFile)
         .pipe(refresh(lrserver));
 });
@@ -103,7 +74,7 @@ gulp.task('copyIndex', function () {
 gulp.task('cacheTemplates', function () {
     gulp.src(pathToTemplates)
         .pipe(templateCache({module: 'app'}))
-        .pipe(gulp.dest('dev'))
+        .pipe(gulp.dest('src/build'))
         .pipe(refresh(lrserver));
 });
 
@@ -115,8 +86,14 @@ gulp.task('startDevServer', function () {
 gulp.task('watchSource', function () {
     gulp.watch(pathToJsSource, ['buildJs', 'lint']);
     gulp.watch(pathToCssSource, ['buildStyle']);
-    gulp.watch(pathToIndexFile, ['copyIndex']);
+    gulp.watch(pathToIndexFile, ['reloadIndex']);
     gulp.watch(pathToTemplates, ['cacheTemplates']);
+});
+
+
+gulp.task('reloadIndex', function () {
+    gulp.src(pathToIndexFile)
+        .pipe(refresh(lrserver));
 });
 
 gulp.task('lint', function () {
@@ -131,29 +108,34 @@ gulp.task('lint', function () {
 ///////////////////////////////////
 
 
-gulp.task('build', function () {
+gulp.task('prod', [
+    'dist',
+    'startProdServer'
+], function () {
+});
+
+gulp.task('dist', function () {
         runSequence(
-            'cleanProdFolder',
+            'cleanDistFolder',
             'buildDev',
-            'buildProd',
-            'startProdServer'
+            'buildDist'
         );
     }
 );
 
-gulp.task('cleanProdFolder', function (cb) {
+gulp.task('cleanDistFolder', function (cb) {
     del('dist', cb);
 });
 
-gulp.task('buildProd', function () {
-    gulp.src('dev/index.html')
+gulp.task('buildDist', function () {
+    gulp.src('src/index.html')
         .pipe(usemin({
             css: [minifyCss()],
             html: [minifyHtml({empty: true})],
             js: [annotate(), uglify(), rev()]
         }))
         .pipe(gulp.dest('dist'));
-    gulp.src('dev/img/**')
+    gulp.src('src/img/**')
         .pipe(copy('dist', {prefix: 1}));
 });
 
@@ -161,7 +143,7 @@ gulp.task('startProdServer', function () {
     var server = express();
     server.use(express.static('./dist'));
     server.all('/*', function (req, res) {
-        res.sendFile('index.html', { root: 'dist' });
+        res.sendFile('index.html', {root: 'dist'});
     });
     server.listen(serverport);
 });

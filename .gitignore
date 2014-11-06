@@ -3,4 +3,5 @@
 dev
 dist
 node_modules
+src/build
 src/vendor

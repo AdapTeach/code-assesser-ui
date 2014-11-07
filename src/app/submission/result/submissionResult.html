@@ -1,22 +1,29 @@
 <div ng-if="Submissions.hasResult()">
 
     <div ng-if="Submissions.current.result.pass" style="text-align:center;">
-        <img src="../img/success.png" width="128px">
+        <img src="/img/success.png" width="128px">
         <h1>Good job !</h1>
     </div>
 
     <div ng-if="!Submissions.current.result.pass">
         <div layout="horizontal" layout-align="center">
-            <img src="img/fail.jpg" height="128px">
+            <img src="/img/fail.jpg" height="128px">
         </div>
-
-        <!--<h1>Fail !</h1>-->
 
         <md-list ng-if="Submissions.current.result.compilationErrors.length > 0">
             <h3>Compilation errors :</h3>
             <md-item ng-repeat="error in ::Submissions.current.result.compilationErrors" style="margin-bottom: 5px;">
                 <md-item-content class="md-theme-red">
                     {{ error }}
+                </md-item-content>
+            </md-item>
+        </md-list>
+
+        <md-list ng-if="Submissions.current.result.exceptionMessage">
+            <h3>Exception :</h3>
+            <md-item style="margin-bottom: 5px;">
+                <md-item-content class="md-theme-red">
+                    {{ Submissions.current.result.exceptionMessage }}
                 </md-item-content>
             </md-item>
         </md-list>

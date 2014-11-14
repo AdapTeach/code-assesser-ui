@@ -3,37 +3,13 @@ angular.module('submission', [
     'submission.progress'
 ])
     .factory('Submissions', function ($http, BACKEND_URL, Assessments, submissionProgressDialog) {
-        var base = {
-                current: {
-                    assessment: {},
-                    code: '',
-                    finished: false,
-                    result: {}
-                }
-            },
-            Submissions = angular.copy(base);
+        var Submissions = {};
 
-        Submissions.resetCurrent = function () {
-            Submissions.current = base;
-            Submissions.current.code = Assessments.current.startCode;
-        };
-
-        Submissions.submitCurrent = function () {
-            return Submissions.submit(Assessments.current, Submissions.current.code);
-        };
-
-        Submissions.submit = function (assessment, submittedCode) {
+        Submissions.submit = function (submission) {
             submissionProgressDialog.show();
-            Submissions.current = {
-                assessment: assessment,
-                code: submittedCode,
-                finished: false,
-                result: {}
-            };
-            var body = {
-                code: submittedCode
-            };
-            return $http.post(BACKEND_URL + assessment.id, body)
+            Submissions.current = angular.copy(submission);
+            Submissions.current.result = {};
+            return $http.post(BACKEND_URL + submission.assessment.id, submission)
                 .success(function (data) {
                     Submissions.current.result = data;
                 })
@@ -42,13 +18,12 @@ angular.module('submission', [
                 })
                 .finally(function () {
                     submissionProgressDialog.hide();
-                    Submissions.current.finished = true;
                 });
         };
 
         Submissions.hasResult = function () {
-            return Submissions.current.assessment === Assessments.current &&
-                Submissions.current.finished &&
+            return Submissions.current !== undefined &&
+                Submissions.current.assessment === Assessments.current &&
                 Submissions.current.result !== undefined &&
                 Submissions.current.result.pass !== undefined;
         };

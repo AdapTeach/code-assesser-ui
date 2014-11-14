@@ -8,7 +8,7 @@ angular.module('assessment', ['ui.router'])
             resolve: {
                 assessment: function ($stateParams, Assessments, Submissions) {
                     return Assessments.load($stateParams.id).then(function () {
-                        Submissions.current.code = angular.copy(Assessments.current.startCode);
+                        Submissions.current = {};
                     });
                 }
             }
@@ -29,9 +29,7 @@ angular.module('assessment', ['ui.router'])
         return Assessments;
     })
 
-    .controller('AssessmentCtrl', function (Assessments, Submissions) {
-        angular.extend(this,Assessments.current);
-
-        this.reset = Submissions.resetCurrent;
-        this.submit = Submissions.submitCurrent;
+    .controller('AssessmentCtrl', function ($scope, Assessments, Submissions) {
+        $scope.Assessments = Assessments;
+        $scope.Submissions = Submissions;
     });

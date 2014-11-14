@@ -1,27 +1,3 @@
-<md-toolbar class="fixed-toolbar">
-    <div class="md-toolbar-tools">
-        {{ assessment.title }}
-        <span flex></span>
-        <md-button ng-if="false">
-            Help
-        </md-button>
-        <md-button ng-click="assessment.reset()">
-            Reset
-        </md-button>
-        <md-button class="md-button-colored" ng-click="assessment.submit()">
-            Submit code
-        </md-button>
-    </div>
-</md-toolbar>
+<at-assessment-editor assessment="Assessments.current" submit="Submissions.submit"></at-assessment-editor>
 
-<md-content class="md-content-padding" style="padding-top:66px;">
-
-    <p>
-        {{ assessment.instructions }}
-    </p>
-
-    <code-editor></code-editor>
-
-    <submission-result></submission-result>
-
-</md-content>
+<submission-result></submission-result>

@@ -4,8 +4,8 @@ angular.module('app', [
     'ui.ace',
     'assessment',
     'backend',
-    'codeEditor',
-    'submission'
+    'submission',
+    'at.assessment'
 ])
 
     .config(function ($locationProvider, $urlRouterProvider) {

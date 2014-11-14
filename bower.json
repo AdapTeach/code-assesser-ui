@@ -1,14 +1,15 @@
 {
-    "name": "code-grader-client",
-    "description": "Embeddable forms to submit code for code-grader assessments",
-    "version": "0.0.1",
-    "dependencies": {
-        "angular": "1.3.*",
-        "angular-ui-router" : "*",
-        "angular-ui-ace": "*",
-        "angular-material" : "0.4.2-master-9e4b8ef"
-    },
-    "devDependencies": {
-        "angular-mocks": "1.3.*"
-    }
+  "name": "code-grader-client",
+  "description": "Embeddable forms to submit code for code-grader assessments",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "1.3.*",
+    "angular-ui-router": "*",
+    "angular-ui-ace": "*",
+    "angular-material": "*",
+    "code-assessment-editor": "*"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.3.*"
+  }
 }

@@ -5,7 +5,11 @@ angular.module('submission', [
     .factory('Submissions', function ($http, BACKEND_URL, Assessments, submissionProgressDialog) {
         var Submissions = {};
 
-        Submissions.submit = function (submission) {
+        Submissions.resetCurrent = function () {
+            Submissions.current = {};
+        };
+
+        Submissions.submitCurrent = function (submission) {
             submissionProgressDialog.show();
             Submissions.current = angular.copy(submission);
             Submissions.current.result = {};
@@ -23,7 +27,6 @@ angular.module('submission', [
 
         Submissions.hasResult = function () {
             return Submissions.current !== undefined &&
-                Submissions.current.assessment === Assessments.current &&
                 Submissions.current.result !== undefined &&
                 Submissions.current.result.pass !== undefined;
         };

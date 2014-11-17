@@ -34,7 +34,7 @@ devServer.all('/*', function (req, res) {
 // PATHS
 var pathToIndexFile = 'src/index.html';
 var pathToJsSource = 'src/app/**/*.js';
-var pathToCssSource = 'src/app/**/*.scss';
+var pathToStyleSource = 'src/app/**/*.scss';
 var pathToTemplates = 'src/app/**/*.html';
 
 gulp.task('default', ['dev'], function () {
@@ -64,7 +64,7 @@ gulp.task('buildJs', function () {
 });
 
 gulp.task('buildStyle', function () {
-    gulp.src(pathToCssSource)
+    gulp.src('src/app/style.scss')
         .pipe(sass())
         .pipe(gulp.dest('src/build'));
     gulp.src(pathToIndexFile)
@@ -85,7 +85,7 @@ gulp.task('startDevServer', function () {
 
 gulp.task('watchSource', function () {
     gulp.watch(pathToJsSource, ['buildJs', 'lint']);
-    gulp.watch(pathToCssSource, ['buildStyle']);
+    gulp.watch(pathToStyleSource, ['buildStyle']);
     gulp.watch(pathToIndexFile, ['reloadIndex']);
     gulp.watch(pathToTemplates, ['cacheTemplates']);
 });

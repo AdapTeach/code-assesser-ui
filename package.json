@@ -23,6 +23,7 @@
         "gulp-rev": "*",
         "gulp-angular-templatecache": "*",
         "gulp-sourcemaps": "*",
-        "gulp-sass" : "*"
+        "gulp-sass" : "*",
+        "gulp-awspublish": "*"
     }
 }

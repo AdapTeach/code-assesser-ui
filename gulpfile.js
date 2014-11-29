@@ -17,7 +17,10 @@ var gulp = require('gulp'),
     minifyHtml = require('gulp-minify-html'),
     rev = require('gulp-rev'),
     sourcemaps = require('gulp-sourcemaps'),
-    templateCache = require('gulp-angular-templatecache');
+    templateCache = require('gulp-angular-templatecache'),
+    awspublish = require('gulp-awspublish');
+
+var s3 = require('./s3');
 
 var livereloadport = 35729,
     serverport = 5000;
@@ -146,4 +149,15 @@ gulp.task('startProdServer', function () {
         res.sendFile('index.html', {root: 'dist'});
     });
     server.listen(serverport);
+});
+
+gulp.task('s3', function () {
+    var publisher = awspublish.create(s3);
+    var headers = {
+        'Cache-Control': 'max-age=5, no-transform, public' // 5 seconds cache TTL
+    };
+    return gulp.src('dist/**/*')
+        .pipe(publisher.publish(headers))
+        .pipe(publisher.cache()) // create a cache file to speed up consecutive uploads
+        .pipe(awspublish.reporter());
 });

@@ -21,7 +21,7 @@ angular.module('assessment', ['ui.router'])
         Assessments.current = {};
 
         Assessments.load = function (assessmentId) {
-            return $http.get(BACKEND_URL + assessmentId).success(function (data) {
+            return $http.get(BACKEND_URL + '/assessment/' + assessmentId).success(function (data) {
                 Assessments.current = data;
             });
         };

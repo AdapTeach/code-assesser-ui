@@ -13,7 +13,7 @@ angular.module('submission', [
             submissionProgressDialog.show();
             Submissions.current = angular.copy(submission);
             Submissions.current.result = {};
-            return $http.post(BACKEND_URL + submission.assessment.id, submission)
+            return $http.post(BACKEND_URL + '/assessment/' + submission.assessment.id + '/submission', submission)
                 .success(function (data) {
                     Submissions.current.result = data;
                 })
